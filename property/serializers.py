@@ -13,4 +13,6 @@ class PropertySerializer(serializers.ModelSerializer):
             "city",
             "province",
             "property_type",
+            "modified",
+            "created",
         )

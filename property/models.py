@@ -1,6 +1,13 @@
 from django.db import models
 
-class Property(models.Model):
+class BaseModel(models.Model):
+    modified = models.DateTimeField("date modified", auto_now=True, blank=True)
+    created = models.DateTimeField("date created", auto_now_add=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+class Property(BaseModel):
     name = models.CharField(max_length=64, blank=True, null=True)
     description = models.TextField(null=True, blank=True, default="")
 
