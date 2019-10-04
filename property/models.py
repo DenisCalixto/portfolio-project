@@ -37,7 +37,7 @@ class Inspection(BaseModel):
     inspected_property = models.ForeignKey(
         Property, null=True, default=None, on_delete=models.SET_NULL
     )
-    inspection_date = models.DateTimeField("when the inspection occured", null=True, blank=True)
+    inspection_date = models.DateField("when the inspection occured", null=True, blank=True)
     notes = models.TextField(null=True, blank=True, default="")
     
     # Choices Constants:
