@@ -5,11 +5,13 @@ from .models import (
     Property,
     Inspection,
     InspectionFile,
+    Report,
 )
 from .serializers import (
     PropertySerializer,
     InspectionSerializer,
     InspectionFileSerializer,
+    ReportSerializer,
 )
 
 
@@ -26,3 +28,9 @@ class InspectionViewSet(viewsets.ModelViewSet):
 class InspectionFileViewSet(viewsets.ModelViewSet):
     serializer_class = InspectionFileSerializer
     queryset = InspectionFile.objects.all()
+
+
+class ReportViewSet(viewsets.ModelViewSet):
+    serializer_class = ReportSerializer
+    queryset = Report.objects.all()
+

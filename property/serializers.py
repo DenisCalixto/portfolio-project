@@ -2,6 +2,7 @@ from .models import (
     Property,
     Inspection,
     InspectionFile,
+    Report,
 )
 from rest_framework import serializers
 
@@ -30,6 +31,8 @@ class InspectionSerializer(serializers.ModelSerializer):
             "inspection_date",
             "notes",
             "status",
+            "modified",
+            "created",
         )
 
 class InspectionFileSerializer(serializers.ModelSerializer):
@@ -40,4 +43,20 @@ class InspectionFileSerializer(serializers.ModelSerializer):
             "inspection",
             "picture",
             "notes",
+            "modified",
+            "created",
+        )
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = (
+            "id",
+            "inspection",
+            "signature",
+            "notes",
+            "status",
+            "modified",
+            "created",
         )
