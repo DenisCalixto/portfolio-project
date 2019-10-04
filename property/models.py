@@ -61,3 +61,27 @@ class InspectionFile(BaseModel):
     )
     picture = models.ImageField(upload_to='inspections_files/', null=True)
     notes = models.TextField(null=True, blank=True, default="")
+
+
+class Report(BaseModel):
+    inspection = models.ForeignKey(
+        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="reports"
+    )
+    signature = models.ImageField(upload_to='report_signatures/', null=True)
+    notes = models.TextField(null=True, blank=True, default="")
+    
+    # Choices Constants:
+    DRAFT = "DR"
+    SIGNED = "SI"
+    FINALIZED = "FI"
+    # Choices:
+    # first element: constant Python identifier
+    # second element: human-readable version
+    STATUS_CHOICES = [
+        (DRAFT, "Draft"),
+        (SIGNED, "Signed"),
+        (FINALIZED, "Finalized"),
+    ]
+    status = models.CharField(
+        max_length=2, choices=STATUS_CHOICES, null=True, default=DRAFT
+    )
