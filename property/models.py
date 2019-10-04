@@ -53,3 +53,11 @@ class Inspection(BaseModel):
     status = models.CharField(
         max_length=2, choices=STATUS_CHOICES, null=True, default=DRAFT
     )
+
+
+class InspectionFile(BaseModel):
+    inspection = models.ForeignKey(
+        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="files"
+    )
+    picture = models.ImageField(upload_to='inspections_files/', null=True)
+    notes = models.TextField(null=True, blank=True, default="")
