@@ -93,6 +93,9 @@ class InspectionTemplate(BaseModel):
         (EQUIPMENT, "Equipment"),
     ]
     property_type = models.CharField(max_length=2, choices=PROPERTY_TYPE_CHOICES, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class InspectionTemplateSection(BaseModel):
@@ -101,12 +104,18 @@ class InspectionTemplateSection(BaseModel):
         InspectionTemplate, null=True, default=None, on_delete=models.SET_NULL, related_name="sections"
     )
 
+    def __str__(self):
+        return self.name
+
 
 class InspectionTemplateItem(BaseModel):
     name = models.CharField(max_length=64, blank=True, null=True)
     inspection_section = models.ForeignKey(
-        InspectionTemplateSection, null=True, default=None, on_delete=models.SET_NULL, related_name="subsections"
+        InspectionTemplateSection, null=True, default=None, on_delete=models.SET_NULL, related_name="items"
     )
+    
+    def __str__(self):
+        return self.name
 
 
 class Report(BaseModel):
