@@ -2,6 +2,7 @@ from django.db import models
 
 from users.models import User
 
+
 class BaseModel(models.Model):
     modified = models.DateTimeField("date modified", auto_now=True, blank=True)
     created = models.DateTimeField("date created", auto_now_add=True, blank=True)
@@ -9,13 +10,18 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+
 class Property(BaseModel):
     name = models.CharField(max_length=64, blank=True, null=True)
-    description = models.TextField(null=True, blank=True, default="")
+    notes = models.TextField(null=True, blank=True, default="")
 
     address = models.CharField(max_length=128, blank=True, null=True)
+    unit = models.CharField(max_length=16, default="", blank=True)
+    zipcode = models.CharField(max_length=16, default="", blank=True)
     city = models.CharField(max_length=64, default="", blank=True)
     province = models.CharField(max_length=32, default="", blank=True)
+    owner = models.CharField(max_length=64, default="", blank=True)
+    contact = models.CharField(max_length=32, default="", blank=True)
     
     thumbnail = models.ImageField(upload_to='properties_images/', null=True)
 
@@ -69,6 +75,38 @@ class InspectionFile(BaseModel):
     )
     picture = models.ImageField(upload_to='inspections_files/', null=True)
     notes = models.TextField(null=True, blank=True, default="")
+
+
+class InspectionTemplate(BaseModel):
+    name = models.CharField(max_length=64, blank=True, null=True)
+
+    # Choices Constants:
+    PLACE = "PL"
+    CAR = "CA"
+    EQUIPMENT = "EQ"
+    # Choices:
+    # first element: constant Python identifier
+    # second element: human-readable version
+    PROPERTY_TYPE_CHOICES = [
+        (PLACE, "Place"),
+        (CAR, "Car"),
+        (EQUIPMENT, "Equipment"),
+    ]
+    property_type = models.CharField(max_length=2, choices=PROPERTY_TYPE_CHOICES, blank=True, null=True)
+
+
+class InspectionTemplateSection(BaseModel):
+    name = models.CharField(max_length=64, blank=True, null=True)
+    inspection_template = models.ForeignKey(
+        InspectionTemplate, null=True, default=None, on_delete=models.SET_NULL, related_name="sections"
+    )
+
+
+class InspectionTemplateItem(BaseModel):
+    name = models.CharField(max_length=64, blank=True, null=True)
+    inspection_section = models.ForeignKey(
+        InspectionTemplateSection, null=True, default=None, on_delete=models.SET_NULL, related_name="subsections"
+    )
 
 
 class Report(BaseModel):
