@@ -3,6 +3,8 @@ from django.contrib import admin
 from .models import (
     Property,
     Inspection,
+    InspectionSection,
+    InspectionItem,
     InspectionFile,
     InspectionTemplate,
     InspectionTemplateSection,
@@ -12,6 +14,8 @@ from .models import (
 
 admin.site.register(Property)
 admin.site.register(Inspection)
+admin.site.register(InspectionSection)
+admin.site.register(InspectionItem)
 admin.site.register(InspectionFile)
 admin.site.register(InspectionTemplate)
 admin.site.register(InspectionTemplateSection)
