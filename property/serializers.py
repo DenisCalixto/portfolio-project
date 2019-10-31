@@ -3,6 +3,8 @@ from rest_framework import serializers
 from .models import (
     Property,
     Inspection,
+    InspectionSection,
+    InspectionItem,
     InspectionFile,
     InspectionTemplate,
     InspectionTemplateSection,
@@ -13,6 +15,7 @@ from .models import (
 from users.models import (
     User
 )
+from users.serializers import UserSerializer
 
 
 class UserLightSerializer(serializers.ModelSerializer):
@@ -57,9 +60,36 @@ class PropertySerializer(serializers.ModelSerializer):
         )
 
 
+class InspectionItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InspectionItem
+        fields = (
+            "id",
+            "name",
+            "inspection_section",
+            "items",
+            "notes",
+            "status",
+            "modified",
+            "created",
+        )
+
+
+class InspectionSectionSerializer(serializers.ModelSerializer):
+    items = InspectionItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = InspectionSection
+        fields = (
+            "id",
+            "name",
+            "inspection",
+            "modified",
+            "created",
+        )
+
+
 class InspectionSerializer(serializers.ModelSerializer):
-    inspector = UserLightSerializer()
-    inspected_property = PropertyLightSerializer()
+    sections = InspectionSectionSerializer(many=True, read_only=True)
     class Meta:
         model = Inspection
         fields = (
@@ -67,6 +97,26 @@ class InspectionSerializer(serializers.ModelSerializer):
             "inspector",
             "inspected_property",
             "inspection_date",
+            "sections",
+            "notes",
+            "status",
+            "modified",
+            "created",
+        )
+
+
+class InspectionDetailSerializer(serializers.ModelSerializer):
+    inspector = UserLightSerializer(read_only=True)
+    inspected_property = PropertyLightSerializer(read_only=True)
+    sections = InspectionSectionSerializer(many=True, read_only=True)
+    class Meta:
+        model = Inspection
+        fields = (
+            "id",
+            "inspector",
+            "inspected_property",
+            "inspection_date",
+            "sections",
             "notes",
             "status",
             "modified",
@@ -108,13 +158,11 @@ class InspectionTemplateItemSerializer(serializers.ModelSerializer):
 
 
 class InspectionTemplateSectionSerializer(serializers.ModelSerializer):
-    items = InspectionTemplateItemSerializer(many=True, read_only=True)
     class Meta:
         model = InspectionTemplateSection
         fields = (
             "id",
             "name",
-            "items",
         )
 
 

@@ -40,7 +40,7 @@ class Property(BaseModel):
     property_type = models.CharField(max_length=2, choices=PROPERTY_TYPE_CHOICES, blank=True, null=True)
     
     def __str__(self):
-        return self.name
+        return self.address
 
 
 class Inspection(BaseModel):
@@ -48,7 +48,7 @@ class Inspection(BaseModel):
     inspected_property = models.ForeignKey(
         Property, null=True, default=None, on_delete=models.SET_NULL
     )
-    inspection_date = models.DateField("when the inspection occured", null=True, blank=True)
+    inspection_date = models.DateField("when the inspection occured", null=True, blank=True, auto_now_add=True)
     notes = models.TextField(null=True, blank=True, default="")
     
     # Choices Constants:
@@ -66,15 +66,42 @@ class Inspection(BaseModel):
     )
     
     def __str__(self):
-        return str(self.inspection_date) + " - " + self.inspector.first_name + " " + self.inspector.last_name
+        if self.inspector:
+            return str(self.inspection_date) + " - " + self.inspector.first_name + " " + self.inspector.last_name
+        else:
+            return str(self.inspection_date)
+
+
+class InspectionSection(BaseModel):
+    name = models.CharField(max_length=64, blank=True, null=True)
+    inspection = models.ForeignKey(
+        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="sections"
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class InspectionItem(BaseModel):
+    name = models.CharField(max_length=64, blank=True, null=True)
+    inspection_section = models.ForeignKey(
+        InspectionSection, null=True, default=None, on_delete=models.SET_NULL, related_name="items"
+    )
+    notes = models.TextField(null=True, blank=True, default="")
+    status = models.CharField(max_length=16, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class InspectionFile(BaseModel):
     inspection = models.ForeignKey(
-        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="files"
+        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="inspection_files"
+    )
+    inspection_item = models.ForeignKey(
+        InspectionItem, null=True, default=None, on_delete=models.SET_NULL, related_name="item_files"
     )
     picture = models.ImageField(upload_to='inspections_files/', null=True)
-    notes = models.TextField(null=True, blank=True, default="")
 
 
 class InspectionTemplate(BaseModel):
