@@ -137,9 +137,6 @@ class InspectionTemplateSection(BaseModel):
 
 class InspectionTemplateItem(BaseModel):
     name = models.CharField(max_length=64, blank=True, null=True)
-    inspection_section = models.ForeignKey(
-        InspectionTemplateSection, null=True, default=None, on_delete=models.SET_NULL, related_name="items"
-    )
     
     def __str__(self):
         return self.name

@@ -67,7 +67,6 @@ class InspectionItemSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "inspection_section",
-            "items",
             "notes",
             "status",
             "modified",
@@ -83,6 +82,7 @@ class InspectionSectionSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "inspection",
+            "items",
             "modified",
             "created",
         )

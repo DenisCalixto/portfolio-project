@@ -13,12 +13,16 @@ from rest_framework.decorators import action
 from .models import (
     Property,
     Inspection,
+    InspectionSection,
+    InspectionItem,
     InspectionFile,
     InspectionTemplate,
     InspectionTemplateSection,
     InspectionTemplateItem,
     Report,
 )
+from users.models import User
+
 from .serializers import (
     PropertySerializer,
     InspectionSerializer,
@@ -40,13 +44,45 @@ class InspectionViewSet(viewsets.ModelViewSet):
     @method_decorator(never_cache)
     @action(detail=False)
     def get_draft_by_property(self, request):
-        properties = Inspection.objects.filter(Q(inspected_property__id__exact=request.GET.get("property_id"))) \
-                    .values('id', 'inspector', 'inspection_date', 'status')
-        properties_list = list(properties)  # important: convert the QuerySet to a list object
-        if len(properties_list) > 0:
-            return JsonResponse(properties_list[0], safe=False)
+        inspections = Inspection.objects.filter(Q(inspected_property__id__exact=request.GET.get("property_id")))
+        inspections_list = list(inspections)  # important: convert the QuerySet to a list object
+        if len(inspections_list) > 0:
+            serializer = InspectionSerializer(inspections_list[0])
+            return Response(serializer.data)
+            # return JsonResponse(inspections_list[0], safe=False)
         else:
             return JsonResponse({}, safe=False)
+
+    @method_decorator(never_cache)
+    @action(detail=False, methods=["post"])
+    def create_draft(self, request):
+        print(request.GET.get("property_id"))
+        propertyInspected = Property.objects.get(pk=int(request.data["property_id"]))
+
+        inspection = Inspection()
+        inspection.inspected_property = propertyInspected
+        inspection.status = Inspection.DRAFT
+        if 'user_id' in request.data.keys():
+            user = User.objects.get(pk=int(request.data["user_id"]))
+            inspection.inspector = user
+        inspection.save()
+
+        # Add sections
+        template_sections = InspectionTemplateSection.objects.all()
+        template_items = InspectionTemplateItem.objects.all()
+        for template_section in template_sections:
+            section = InspectionSection.objects.create(
+                inspection = inspection,
+                name = template_section.name,
+            )
+            for template_item in template_items:
+                item = InspectionItem.objects.create(
+                    inspection_section = section,
+                    name = template_item.name,
+                )
+
+        serializer = InspectionSerializer(inspection)
+        return Response(serializer.data)
 
 
 class InspectionTemplateViewSet(viewsets.ModelViewSet):
