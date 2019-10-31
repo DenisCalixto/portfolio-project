@@ -28,6 +28,7 @@ from .serializers import (
     InspectionSerializer,
     InspectionFileSerializer,
     InspectionTemplateSerializer,
+    InspectionTemplateItemSerializer,
     ReportSerializer,
 )
 
@@ -75,14 +76,19 @@ class InspectionViewSet(viewsets.ModelViewSet):
                 inspection = inspection,
                 name = template_section.name,
             )
-            for template_item in template_items:
-                item = InspectionItem.objects.create(
-                    inspection_section = section,
-                    name = template_item.name,
-                )
+            # for template_item in template_items:
+            #     item = InspectionItem.objects.create(
+            #         inspection_section = section,
+            #         name = template_item.name,
+            #     )
 
         serializer = InspectionSerializer(inspection)
         return Response(serializer.data)
+
+
+class InspectionTemplateItemViewSet(viewsets.ModelViewSet):
+    serializer_class = InspectionTemplateItemSerializer
+    queryset = InspectionTemplateItem.objects.all()
 
 
 class InspectionTemplateViewSet(viewsets.ModelViewSet):
