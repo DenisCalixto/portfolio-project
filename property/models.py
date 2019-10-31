@@ -75,7 +75,7 @@ class Inspection(BaseModel):
 class InspectionSection(BaseModel):
     name = models.CharField(max_length=64, blank=True, null=True)
     inspection = models.ForeignKey(
-        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="sections"
+        Inspection, null=True, default=None, on_delete=models.CASCADE, related_name="sections"
     )
 
     def __str__(self):
@@ -85,7 +85,7 @@ class InspectionSection(BaseModel):
 class InspectionItem(BaseModel):
     name = models.CharField(max_length=64, blank=True, null=True)
     inspection_section = models.ForeignKey(
-        InspectionSection, null=True, default=None, on_delete=models.SET_NULL, related_name="items"
+        InspectionSection, null=True, default=None, on_delete=models.CASCADE, related_name="items"
     )
     notes = models.TextField(null=True, blank=True, default="")
     status = models.CharField(max_length=16, blank=True, null=True)
@@ -96,10 +96,10 @@ class InspectionItem(BaseModel):
 
 class InspectionFile(BaseModel):
     inspection = models.ForeignKey(
-        Inspection, null=True, default=None, on_delete=models.SET_NULL, related_name="inspection_files"
+        Inspection, null=True, default=None, on_delete=models.CASCADE, related_name="inspection_files"
     )
     inspection_item = models.ForeignKey(
-        InspectionItem, null=True, default=None, on_delete=models.SET_NULL, related_name="item_files"
+        InspectionItem, null=True, default=None, on_delete=models.CASCADE, related_name="item_files"
     )
     picture = models.ImageField(upload_to='inspections_files/', null=True)
 
