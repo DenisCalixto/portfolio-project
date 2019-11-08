@@ -26,6 +26,8 @@ from users.models import User
 from .serializers import (
     PropertySerializer,
     InspectionSerializer,
+    InspectionSectionSerializer,
+    InspectionItemSerializer,
     InspectionFileSerializer,
     InspectionTemplateSerializer,
     InspectionTemplateItemSerializer,
@@ -57,7 +59,7 @@ class InspectionViewSet(viewsets.ModelViewSet):
     @method_decorator(never_cache)
     @action(detail=False, methods=["post"])
     def create_draft(self, request):
-        print(request.GET.get("property_id"))
+        print(request.data)
         propertyInspected = Property.objects.get(pk=int(request.data["property_id"]))
 
         inspection = Inspection()
@@ -84,6 +86,16 @@ class InspectionViewSet(viewsets.ModelViewSet):
 
         serializer = InspectionSerializer(inspection)
         return Response(serializer.data)
+
+
+class InspectionSectionViewSet(viewsets.ModelViewSet):
+    serializer_class = InspectionSectionSerializer
+    queryset = InspectionSection.objects.all()
+
+
+class InspectionItemViewSet(viewsets.ModelViewSet):
+    serializer_class = InspectionItemSerializer
+    queryset = InspectionItem.objects.all()
 
 
 class InspectionTemplateItemViewSet(viewsets.ModelViewSet):

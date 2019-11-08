@@ -6,6 +6,8 @@ router = routers.DefaultRouter()
 
 router.register(r'property', views.PropertyViewSet)
 router.register(r'inspection', views.InspectionViewSet)
+router.register(r'inspection_section', views.InspectionSectionViewSet)
+router.register(r'inspection_item', views.InspectionItemViewSet)
 router.register(r'inspectionfile', views.InspectionFileViewSet)
 router.register(r'inspection_template', views.InspectionTemplateViewSet)
 router.register(r'inspection_template_item', views.InspectionTemplateItemViewSet)

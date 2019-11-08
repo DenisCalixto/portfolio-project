@@ -167,4 +167,5 @@ class Report(BaseModel):
     )
     
     def __str__(self):
-        return str(self.inspection.inspection_date) + " - " + self.inspection.inspector.first_name + " " + self.inspection.inspector.last_name
+        return str(self.report_file)
+
