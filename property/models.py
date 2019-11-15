@@ -51,6 +51,11 @@ class Inspection(BaseModel):
     inspection_date = models.DateField("when the inspection occured", null=True, blank=True, auto_now_add=True)
     notes = models.TextField(null=True, blank=True, default="")
     
+    tenant_name = models.CharField(max_length=64, default="", blank=True)
+    tenant_phone = models.CharField(max_length=16, default="", blank=True)
+    tenant_email = models.CharField(max_length=32, default="", blank=True)
+    tenant_notes = models.TextField(null=True, blank=True, default="")
+    
     # Choices Constants:
     DRAFT = "DR"
     FINALIZED = "FI"
