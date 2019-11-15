@@ -28,10 +28,54 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_WHITELIST = [
+    "http://gover-app.com",
+    "https://gover-app.com",
+    "http://www.gover-app.com",
+    "https://www.gover-app.com",
+    "http://localhost:4200",
+    "http://127.0.0.1:8000",
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'cache-control',
+]
 
 # Application definition
 
+CSRF_TRUSTED_ORIGINS = (
+    "localhost:8000",
+    "127.0.0.1:8020",
+    "localhost:4200",
+    "127.0.0.1:4200",
+    "gover-app.com",
+    "www.gover-app.com",
+)
+
 INSTALLED_APPS = [
+    'corsheaders',
     'blog.apps.BlogConfig',
     'jobs.apps.JobsConfig',
     'django.contrib.admin',
@@ -46,10 +90,12 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
