@@ -183,7 +183,6 @@ class InspectionTemplateSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
-    inspection = InspectionLightSerializer()
     class Meta:
         model = Report
         fields = (
