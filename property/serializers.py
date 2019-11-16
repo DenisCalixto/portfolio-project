@@ -183,11 +183,13 @@ class InspectionTemplateSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
+    inspection_obj = InspectionLightSerializer(source="inspection", read_only=True)
     class Meta:
         model = Report
         fields = (
             "id",
             "inspection",
+            "inspection_obj",
             "signature",
             "report_file",
             "notes",
