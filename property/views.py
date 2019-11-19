@@ -136,4 +136,5 @@ class ReportViewSet(viewsets.ModelViewSet):
     def create_report_file(self, request):
 
         pdfkit.from_url('http://micropyramid.com', 'micro.pdf')
+        return Response([])
 
