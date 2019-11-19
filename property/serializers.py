@@ -68,6 +68,7 @@ class InspectionItemSerializer(serializers.ModelSerializer):
             "name",
             "inspection_section",
             "notes",
+            "picture",
             "status",
             "modified",
             "created",

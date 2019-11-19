@@ -94,6 +94,7 @@ class InspectionItem(BaseModel):
     )
     notes = models.TextField(null=True, blank=True, default="")
     status = models.CharField(max_length=16, blank=True, null=True)
+    picture = models.ImageField(upload_to='inspections_files/', null=True)
     
     def __str__(self):
         return self.name
