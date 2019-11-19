@@ -90,12 +90,14 @@ class InspectionSectionSerializer(serializers.ModelSerializer):
 
 class InspectionSerializer(serializers.ModelSerializer):
     sections = InspectionSectionSerializer(many=True, read_only=True)
+    inspected_property_obj = PropertyLightSerializer(source="inspected_property", read_only=True)
     class Meta:
         model = Inspection
         fields = (
             "id",
             "inspector",
             "inspected_property",
+            "inspected_property_obj",
             "inspection_date",
             "sections",
             "notes",
