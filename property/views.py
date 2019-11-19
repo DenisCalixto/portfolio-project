@@ -10,6 +10,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+import pdfkit
+
 from .models import (
     Property,
     Inspection,
@@ -128,4 +130,10 @@ class ReportViewSet(viewsets.ModelViewSet):
     def filter_queryset(self, queryset):
         queryset = super(ReportViewSet, self).filter_queryset(queryset)
         return queryset.order_by('-modified')
+
+    @method_decorator(never_cache)
+    @action(detail=False, methods=["get"])
+    def create_report_file(self, request):
+
+        pdfkit.from_url('http://micropyramid.com', 'micro.pdf')
 
