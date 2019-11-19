@@ -39,10 +39,18 @@ class PropertyViewSet(viewsets.ModelViewSet):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
 
+    def filter_queryset(self, queryset):
+        queryset = super(PropertyViewSet, self).filter_queryset(queryset)
+        return queryset.order_by('-modified')
+
 
 class InspectionViewSet(viewsets.ModelViewSet):
     serializer_class = InspectionSerializer
     queryset = Inspection.objects.all()
+
+    def filter_queryset(self, queryset):
+        queryset = super(InspectionViewSet, self).filter_queryset(queryset)
+        return queryset.order_by('-modified')
 
     @method_decorator(never_cache)
     @action(detail=False)
@@ -116,4 +124,8 @@ class InspectionFileViewSet(viewsets.ModelViewSet):
 class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportSerializer
     queryset = Report.objects.all()
+
+    def filter_queryset(self, queryset):
+        queryset = super(ReportViewSet, self).filter_queryset(queryset)
+        return queryset.order_by('-modified')
 
