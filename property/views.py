@@ -1,10 +1,13 @@
-from django.shortcuts import render
+import os
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.core import serializers
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
+
+from django.core.files import File
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -135,6 +138,28 @@ class ReportViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def create_report_file(self, request):
 
-        pdfkit.from_url('http://micropyramid.com', 'micro.pdf')
+        report_id = request.GET.get("report_id")
+        pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report_id)), 'micro.pdf')
+        report = get_object_or_404(Report, pk=report_id)
+
+        # f = open('micro.pdf')
+        # report.save(new_name, File(f))
+
         return Response([])
 
+def report_pdf(request, report_id):    
+    inspection = get_object_or_404(Inspection, pk=report_id)
+    inspected_property = inspection.inspected_property
+    reports = Report.objects.filter(inspection__id=inspection.id)
+    reports_list = list(reports)
+    sections = inspection.sections
+    return render(
+        request,
+        'report_pdf.html', 
+        { 
+            'inspection': inspection,
+            'inspected_property': inspected_property,
+            'report': reports_list[0],
+            'sections': sections,
+        }
+    )

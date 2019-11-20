@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load staticfiles %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
+  <title>Gover Report</title>
+</head>
+<body>
+
+  <main>
+    <h2>Property Address {{ inspected_property.address }}</h2>
+    <h2>Inspection Date {{ inspection.created }}</h2>
+    <h2>Tenant Name {{ inspection.tenant_name }}</h2>
+
+    <div class="">
+      <h3>Sections:</h3>
+      <div class="">
+        {% for section in sections.all %}
+          {% if section.items.count > 0 %}
+            <div class="">
+              <h4>Section {{ section.name }}</h4>
+              {% for item in section.items.all %}
+              <div class="">
+                <h4>Item: {{ item.name }}</h4>
+                {% if item.status %}
+                  <h4>Status: {{ item.status }}</h4>
+                {% endif %}
+                {% if item.notes %}
+                  <h4>Notes {{ item.notes }}</h4>
+                {% endif %}
+                {% if item.picture %}
+                  <h4>
+                    <div class="">
+                      <img src="{{ item.picture.url }}" alt="">
+                    </div>
+                  </h4>
+                {% endif %}
+              </div>
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    
+    {% if report.signature %}
+      <div class="">
+        <img src="{{ report.signature.url }}" alt="">
+      </div>
+    {% endif %}
+
+  </main>
+
+  <br><br>
+
+</body>
+</html>
