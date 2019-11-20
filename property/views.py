@@ -143,7 +143,7 @@ class ReportViewSet(viewsets.ModelViewSet):
 
         file_name = 'report_{}.pdf'.format(str(report_id))
 
-        pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report.inspection.id)), file_name)
+        pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report_id)), file_name)
 
         reopen = open(file_name, "rb")
         django_file = File(reopen)
@@ -155,19 +155,17 @@ class ReportViewSet(viewsets.ModelViewSet):
         return Response([])
 
 
-def report_pdf(request, inspection_id):    
-    inspection = get_object_or_404(Inspection, pk=inspection_id)
+def report_pdf(request, report_id):
+    report = get_object_or_404(Report, pk=report_id)    
+    inspection = report.inspection
     inspected_property = inspection.inspected_property
-    reports = Report.objects.filter(inspection__id=inspection.id)
-    reports_list = list(reports)
-    sections = inspection.sections
     return render(
         request,
         'report_pdf.html', 
         { 
             'inspection': inspection,
             'inspected_property': inspected_property,
-            'report': reports_list[0],
-            'sections': sections,
+            'report': report,
+            'sections': inspection.sections,
         }
     )
