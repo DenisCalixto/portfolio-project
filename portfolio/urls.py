@@ -18,5 +18,5 @@ urlpatterns = [
     path('api/', include('jobs.urls')),
     path("api/", include("users.urls"), name="users"),
     path("api/", include("property.urls"), name="property"),
-    path('report_pdf/<int:report_id>/', report_pdf, name='report_pdf'),
+    path('report_pdf/<int:inspection_id>/', report_pdf, name='report_pdf'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
