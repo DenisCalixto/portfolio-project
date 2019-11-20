@@ -135,12 +135,13 @@ class ReportViewSet(viewsets.ModelViewSet):
         return queryset.order_by('-modified')
 
     @method_decorator(never_cache)
-    @action(detail=False, methods=["get"])
+    @action(detail=False)
     def create_report_file(self, request):
 
-        # report_id = request.GET.get("report_id")
-        # pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report_id)), 'micro.pdf')
-        pdfkit.from_url('https://greenfillproject.com/report_pdf?report_id=14', 'micro.pdf')
+        # print(request.GET.get("report_id"))
+        report_id = request.GET.get("report_id")
+        pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report_id)), 'micro.pdf')
+        # pdfkit.from_url('https://greenfillproject.com/report_pdf/14/', 'micro.pdf')
         # report = get_object_or_404(Report, pk=report_id)
 
         # pdfkit.from_url('https://greenfillproject.com/', 'micro.pdf')
