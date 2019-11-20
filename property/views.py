@@ -138,18 +138,21 @@ class ReportViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def create_report_file(self, request):
 
-        # print(request.GET.get("report_id"))
         report_id = request.GET.get("report_id")
-        pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report_id)), 'micro.pdf')
-        # pdfkit.from_url('https://greenfillproject.com/report_pdf/14/', 'micro.pdf')
-        # report = get_object_or_404(Report, pk=report_id)
+        file_name = 'report_{}.pdf'.format(str(report_id))
 
-        # pdfkit.from_url('https://greenfillproject.com/', 'micro.pdf')
+        pdfkit.from_url('https://greenfillproject.com/report_pdf/{}/'.format(str(report_id)), file_name)
 
-        # f = open('micro.pdf')
-        # report.save(new_name, File(f))
+        reopen = open(file_name, "rb")
+        django_file = File(reopen)
+
+        report = get_object_or_404(Report, pk=report_id)
+        report.report_file.save(file_name, django_file, save=True)
+
+        django_file.close()
 
         return Response([])
+
 
 def report_pdf(request, report_id):    
     inspection = get_object_or_404(Inspection, pk=report_id)
