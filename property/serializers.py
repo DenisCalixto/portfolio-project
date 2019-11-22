@@ -152,6 +152,7 @@ class InspectionLightSerializer(serializers.ModelSerializer):
             "id",
             "inspected_property",
             "inspection_date",
+            "tenant_name",
         )
 
 
