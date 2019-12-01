@@ -5,238 +5,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Saira:300,400,500,600,700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"> -->
+  <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
   <title>Gover Report</title>
 </head>
-
-<style>
-
-  /* Typography */
-
-  .property_info h3 {
-      font-family: 'Saira', sans-serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: #EF7667;
-      margin: 0;
-  }
-
-  .property_addr, .inspection_date, .tenant_name {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      color: #CECECE;
-      margin: 0;
-  }
-
-  .date, .name {
-      font-family: 'Saira', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #002942;
-      margin: 0;
-  }
-
-  .sections h3 {
-      font-family: 'Saira', sans-serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: #EF7667;
-  }
-
-  .section_name h4 {
-      font-family: 'Saira', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #EF7667;
-  }
-
-  .item h4 {
-      font-family: 'Saira', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #002942;
-      margin: 0;
-  }
-
-  .notes h4 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      color: #002942;
-      margin: 5px;
-  }
-
-  .status h4 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      color: #002942;
-      margin: 5px;
-  }
-
-  .signature h4 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      color: #CECECE;
-      margin: 0;
-  }
-
-  .signature h3 {
-      font-family: 'Saira', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: #002942;
-      margin: 0;
-  }
-
-  /* Body */
-
-  body {
-      margin: 30px;
-  }
-
-  img {
-      width: 100%;
-      height: auto;
-    }
-
-  /* Elements */
-
-  header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      margin-bottom: 40px;
-  }
-
-  .logo {
-      justify-self: end;
-      align-self: center;
-
-  }
-
-  .inspection_info {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-gap: 20px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid #DFDFDF;
-  }
-
-  .section_content {
-      display: grid;
-      grid-template-columns: 20% 80%;
-  }
-
-  .item_info {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-  }
-
-  .item_img img {
-      width:20%;
-      border-radius: 10px;
-      margin-top: 20px;
-  }
-
-  .signature {
-      display: grid;
-      justify-items: end;
-  }
-
-  .signature img {
-      width: 12%;
-  }
-</style>
-
-<body data-gr-c-s-loaded="true">
-
-    <header>
-
-        <div class="property_info">
-            <h2 class="property_addr">
-              Property Address
-            </h2>
-      
-            <h3 class ="address">
-                {{ inspected_property.address }}
-            </h2>
-          </div>
-
-        <!-- <div class="logo">
-          <img src="./Gover_PDF_files/gover_logo.svg" alt="logo">
-        </div> -->
-    
-      </header>
+<body>
 
   <main>
+    <h2>Property Address {{ inspected_property.address }}</h2>
+    <h2>Inspection Date {{ inspection.created }}</h2>
+    <h2>Tenant Name {{ inspection.tenant_name }}</h2>
 
-    <div class="inspection_info">
-
-      <div class="date_info">
-        <h3 class="inspection_date">Inspection Date</h3>
-        <h2 class="date">{{ inspection.created }}</h2>
-      </div>
-
-      <div class="tenant_info">
-        <h3 class="tenant_name">Tenant Name</h3>
-        <h2 class="name">{{ inspection.tenant_name }}</h2>
-      </div>
-
-    </div>
-
-    <div class="main_section">
-    
-      <div class="sections">
-        <h3>Sections:</h3>
-      </div>
-
-      {% for section in sections.all %}
-        {% if section.items.count > 0 %}
-          <div class="section_name">
-            <h4>Section {{ section.name }}</h4>
-          </div>
-          {% for item in section.items.all %}
-            <div class="section_content">
-
-              <div class="item">
-                  <h4>Item: {{ item.name }}</h4>
-              </div>
-      
-              <div class ="item_content">
-      
-                <div class= "item_info">
-                  {% if item.status %}
-                  <div class="status">
-                    <h4>Status: {{ item.status }}</h4>
-                  </div>
-                  {% endif %}
-                  {% if item.notes %}
-                    <div class="notes">
-                      <h4>{{ item.notes }}</h4>
-                    </div>
-                  {% endif %}
-                </div>
-                {% if item.picture %}
-                  <div class="item_img">
-                    <img src="{{ item.picture.url }}" alt="">
-                  </div>
+    <div class="">
+      <h3>Sections:</h3>
+      <div class="">
+        {% for section in sections.all %}
+          {% if section.items.count > 0 %}
+            <div class="">
+              <h4>Section {{ section.name }}</h4>
+              {% for item in section.items.all %}
+              <div class="">
+                <h4>Item: {{ item.name }}</h4>
+                {% if item.status %}
+                  <h4>Status: {{ item.status }}</h4>
                 {% endif %}
-              </div>      
+                {% if item.notes %}
+                  <h4>Notes {{ item.notes }}</h4>
+                {% endif %}
+                {% if item.picture %}
+                  <h4>
+                    <div class="">
+                      <img src="{{ item.picture.url }}" alt="">
+                    </div>
+                  </h4>
+                {% endif %}
+              </div>
+            {% endfor %}
             </div>
-          {% endfor %}
-        {% endif %}
-      {% endfor %}
-    </div>
-
-    {% if report.signature %}
-      <div class="signature">
-          <img src="{{ report.signature.url }" alt="">
-          <h4>Tenant Signature</h4>
-          <h3>{{ inspection.tenant_name }}</h3>
+          {% endif %}
+        {% endfor %}
       </div>
-    {% endif %}    
+    </div>
+    
+    {% if report.signature %}
+      <div class="">
+        <img src="{{ report.signature.url }}" alt="">
+      </div>
+    {% endif %}
 
   </main>
 
-</body>
+  <br><br>
 
+</body>
 </html>
