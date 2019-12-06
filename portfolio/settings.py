@@ -26,7 +26,13 @@ SECRET_KEY = 'n%cv+j^#ip8kj4w5$chkvy&hl9%d1m!alqq^ouv0e8!x((q62('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = [
+#     "10.0.2.2", 
+#     "127.0.0.1",
+#     "159.65.44.135",
+#     "greenfillproject.com",
+#     "www.greenfillproject.com",
+# ]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -195,17 +201,17 @@ MEDIA_URL = '/media/'
 #     ],
 # }
 
-# JWT_AUTH = {
-#     # how long the original token is valid for
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+JWT_AUTH = {
+    # how long the original token is valid for
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
 
-#     # allow refreshing of tokens
-#     'JWT_ALLOW_REFRESH': True,
+    # allow refreshing of tokens
+    'JWT_ALLOW_REFRESH': True,
 
-#     # this is the maximum time AFTER the token was issued that
-#     # it can be refreshed.  exprired tokens can't be refreshed.
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-# }
+    # this is the maximum time AFTER the token was issued that
+    # it can be refreshed.  exprired tokens can't be refreshed.
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
 
 try:
     from .local_settings import *
